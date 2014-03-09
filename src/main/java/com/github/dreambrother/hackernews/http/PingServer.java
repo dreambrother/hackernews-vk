@@ -1,7 +1,6 @@
 package com.github.dreambrother.hackernews.http;
 
 import com.github.dreambrother.hackernews.exceptions.InvalidRequestException;
-import com.github.dreambrother.hackernews.exceptions.RuntimeIOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,8 +44,7 @@ public class PingServer {
                     }
                     log.info("Server was interrupted... shutdown now");
                 } catch (IOException e) {
-                    // we can't do anything here, let's die
-                    throw new RuntimeIOException(e);
+                    log.error("PingServer doesn't start", e);
                 }
             }
         };
