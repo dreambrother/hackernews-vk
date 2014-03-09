@@ -21,7 +21,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcomponents-client</artifactId>
+            <artifactId>httpclient</artifactId>
             <version>${apache.http.version}</version>
         </dependency>
         <dependency>
