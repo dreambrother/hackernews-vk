@@ -1,7 +1,7 @@
 package com.github.dreambrother.hackernews;
 
-import com.github.dreambrother.hackernews.io.StdIOImpl;
-import com.github.dreambrother.hackernews.wd.WatchdogPingListener;
+import com.github.dreambrother.hackernews.http.PingServer;
+import com.github.dreambrother.hackernews.wd.WatchdogPingHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,9 +30,12 @@ public class HackernewsVkApp {
     }
 
     private void startWdListener() {
-        WatchdogPingListener listener = new WatchdogPingListener();
-        listener.setStdIO(new StdIOImpl());
-        listener.start();
+        PingServer server = new PingServer();
+        server.setHandler(new WatchdogPingHandler());
+        server.setPort(10000);
+
+        log.info("Start PingServer...");
+        server.start();
     }
 
     private void registerShutdownHook() {

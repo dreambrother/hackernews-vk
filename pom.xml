@@ -10,6 +10,7 @@
 
     <properties>
         <targetLib.foler>${project.build.directory}/lib</targetLib.foler>
+        <apache.http.version>4.3.3</apache.http.version>
     </properties>
 
     <dependencies>
@@ -17,6 +18,16 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.0.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcomponents-client</artifactId>
+            <version>${apache.http.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>fluent-hc</artifactId>
+            <version>${apache.http.version}</version>
         </dependency>
 
         <!-- Test -->
