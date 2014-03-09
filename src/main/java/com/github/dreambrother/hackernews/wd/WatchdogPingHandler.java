@@ -1,16 +1,8 @@
 package com.github.dreambrother.hackernews.wd;
 
-import com.github.dreambrother.hackernews.io.StdIO;
-
-public class WatchdogPingListener {
+public class WatchdogPingHandler {
 
     public static final String RESPONSE_MESSAGE = "pong";
-
-    private StdIO stdIO;
-
-    public void setStdIO(StdIO stdIO) {
-        this.stdIO = stdIO;
-    }
 
     public void start() {
         startListenerDaemonThread();
@@ -29,7 +21,5 @@ public class WatchdogPingListener {
     }
 
     private void waitForPingAndResponse() {
-        stdIO.read();
-        stdIO.write(RESPONSE_MESSAGE);
     }
 }
