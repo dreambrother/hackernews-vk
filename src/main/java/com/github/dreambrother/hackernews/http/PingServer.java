@@ -24,6 +24,9 @@ public class PingServer {
     private HttpGetHandler handler;
     private int port;
 
+    private ServerSocket runningServerSocket;
+    private volatile boolean isShutdowned = false;
+
     public void start() {
         Thread serverThread = new Thread(serverRunnable());
         serverThread.setDaemon(true);
@@ -31,21 +34,30 @@ public class PingServer {
     }
 
     public void stop() {
-        Thread.currentThread().interrupt();
+        try {
+            isShutdowned = true;
+            runningServerSocket.close();
+        } catch (IOException e) {
+            log.error("Cannot close running server socket");
+        }
     }
 
     private Runnable serverRunnable() {
         return new Runnable() {
             public void run() {
-                try (ServerSocket serverSocket = new ServerSocket(port, 1, InetAddress.getLoopbackAddress())){
-                    while (!Thread.currentThread().isInterrupted()) {
+                try (ServerSocket serverSocket = new ServerSocket(port, 1, InetAddress.getLoopbackAddress())) {
+                    runningServerSocket = serverSocket;
+                    while (true) {
                         try (Socket clientSocket = serverSocket.accept()) {
                             handle(clientSocket);
                         }
                     }
-                    log.info("Server was interrupted... shutdown now");
                 } catch (IOException e) {
-                    log.error("PingServer doesn't start", e);
+                    if (isShutdowned) {
+                        log.info("Server was stopped... shutdown now");
+                    } else {
+                        log.error("PingServer error", e);
+                    }
                 }
             }
         };
