@@ -36,4 +36,26 @@ public class HackernewsItem {
     public void setCommentsLink(String commentsLink) {
         this.commentsLink = commentsLink;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        HackernewsItem that = (HackernewsItem) o;
+
+        if (!commentsLink.equals(that.commentsLink)) return false;
+        if (!link.equals(that.link)) return false;
+        if (!title.equals(that.title)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title.hashCode();
+        result = 31 * result + link.hashCode();
+        result = 31 * result + commentsLink.hashCode();
+        return result;
+    }
 }
