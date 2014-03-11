@@ -74,8 +74,10 @@ public class PingServer {
         } catch (IOException e) {
             log.warn("Cannot read from socket!");
         } catch (InvalidRequestException e) {
+            log.warn("Invalid request", e);
             writeResponse("400 BAD REQUEST", "", clientSocket);
         } catch (Exception ex) {
+            log.error("Ping error", ex);
             writeResponse("500 INTERNAL SERVER ERROR", "", clientSocket);
         }
     }

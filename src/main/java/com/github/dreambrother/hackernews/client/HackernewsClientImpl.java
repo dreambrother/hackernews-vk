@@ -12,10 +12,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-public class HackernewsClientImpl {
+public class HackernewsClientImpl implements HackernewsClient {
 
     private static final Logger log = LoggerFactory.getLogger(HackernewsClientImpl.class);
 
+    @Override
     public List<HackernewsItem> fetchNews() {
         log.info("Try to fetch news");
         try {
