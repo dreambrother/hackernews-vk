@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface PublishedItemsDao {
 
-    List<HackernewsItem> getLastPublishedItems();
+    List getLastPublishedItems();
     void saveLastPublishedItems(List<HackernewsItem> items);
 }
