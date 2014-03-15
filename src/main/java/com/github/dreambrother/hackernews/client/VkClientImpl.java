@@ -20,8 +20,6 @@ public class VkClientImpl implements VkClient {
 
     private static final Logger log = LoggerFactory.getLogger(VkClientImpl.class);
 
-    private static final String WALL_POST_URL = "https://api.vk.com/method/wall.post";
-
     private String token;
     private String communityId;
 
@@ -29,7 +27,7 @@ public class VkClientImpl implements VkClient {
     public void publish(HackernewsItem news) {
         log.info("Publish {}", news);
         try {
-            HttpResponse httpResponse = Request.Post(WALL_POST_URL)
+            HttpResponse httpResponse = Request.Post("https://api.vk.com/method/wall.post")
                     .bodyForm(paramsForNews(news), Charset.forName("UTF-8"))
                     .execute().returnResponse();
 
