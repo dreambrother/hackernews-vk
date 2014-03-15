@@ -47,7 +47,8 @@ public class VkClientImpl implements VkClient {
         return Arrays.asList(
                 new BasicNameValuePair("owner_id", communityId),
                 new BasicNameValuePair("from_group", "1"),
-                new BasicNameValuePair("message", news.getTitle()),
+                new BasicNameValuePair("message", formatMessage(news)),
+                new BasicNameValuePair("attachments", news.getLink()),
                 new BasicNameValuePair("access_token", token),
                 new BasicNameValuePair("v", "5.14")
         );
@@ -60,6 +61,10 @@ public class VkClientImpl implements VkClient {
         } catch (IOException e) {
             throw new RuntimeIOException(e);
         }
+    }
+
+    private String formatMessage(HackernewsItem news) {
+        return String.format("%s%n Comments: %s", news.getTitle(), news.getCommentsLink());
     }
 
     @Override
