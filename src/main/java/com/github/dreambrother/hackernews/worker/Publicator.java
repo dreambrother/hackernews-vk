@@ -28,8 +28,18 @@ public class Publicator implements Runnable {
         List<HackernewsItem> itemsToPublish = new ArrayList<>(items);
         itemsToPublish.removeAll(publishedNews);
 
-        vkClient.publish(itemsToPublish);
+        publish(itemsToPublish);
         publishedItemsDao.saveLastPublishedItems(items);
+    }
+
+    private void publish(List<HackernewsItem> newsList) {
+        for (HackernewsItem news : newsList) {
+            try {
+                vkClient.publish(news);
+            } catch (RuntimeException ex) {
+                log.error("Cannot publish news", ex);
+            }
+        }
     }
 
     public void setHackernewsClient(HackernewsClient hackernewsClient) {

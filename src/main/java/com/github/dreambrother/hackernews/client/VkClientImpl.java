@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.List;
 
 public class VkClientImpl implements VkClient {
 
@@ -64,11 +63,6 @@ public class VkClientImpl implements VkClient {
 
     private String formatMessage(HackernewsItem news) {
         return String.format("%s%n Comments: %s", news.getTitle(), news.getCommentsLink());
-    }
-
-    @Override
-    public void publish(List<HackernewsItem> items) {
-        throw new UnsupportedOperationException();
     }
 
     public void setToken(String token) {

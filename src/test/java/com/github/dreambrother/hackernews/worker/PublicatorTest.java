@@ -8,8 +8,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Collections;
-
 import static com.github.dreambrother.hackernews.fixture.HackernewsItems.threeItems;
 import static com.github.dreambrother.hackernews.fixture.HackernewsItems.twoItems;
 import static org.mockito.Mockito.verify;
@@ -43,7 +41,7 @@ public class PublicatorTest {
 
         verify(hackernewsClientMock).fetchNews();
         verify(publishedItemsDaoMock).getLastPublishedItems();
-        verify(vkClientMock).publish(Collections.singletonList(threeItems().get(2)));
+        verify(vkClientMock).publish(threeItems().get(2));
         verify(publishedItemsDaoMock).saveLastPublishedItems(threeItems());
     }
 }
