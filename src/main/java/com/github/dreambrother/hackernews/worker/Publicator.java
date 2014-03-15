@@ -37,6 +37,7 @@ public class Publicator implements Runnable {
         itemsToPublish.removeAll(publishedNews);
 
         publish(itemsToPublish);
+        log.info("Save published items");
         publishedItemsDao.saveLastPublishedItems(items);
     }
 
@@ -45,6 +46,7 @@ public class Publicator implements Runnable {
         for (HackernewsItem news : newsList) {
             publishWithInterruptionHandling(news);
         }
+        log.info("Finish publishing");
     }
 
     private void publishWithInterruptionHandling(HackernewsItem news) {
