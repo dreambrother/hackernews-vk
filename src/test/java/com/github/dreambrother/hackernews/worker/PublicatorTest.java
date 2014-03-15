@@ -30,6 +30,7 @@ public class PublicatorTest {
         sut.setHackernewsClient(hackernewsClientMock);
         sut.setPublishedItemsDao(publishedItemsDaoMock);
         sut.setVkClient(vkClientMock);
+        sut.setPostingDelayMillis(0);
     }
 
     @Test

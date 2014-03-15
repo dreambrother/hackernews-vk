@@ -17,6 +17,7 @@ public class Publicator implements Runnable {
     private HackernewsClient hackernewsClient;
     private VkClient vkClient;
     private PublishedItemsDao publishedItemsDao;
+    private int postingDelayMillis;
 
     @Override
     public void run() {
@@ -40,9 +41,21 @@ public class Publicator implements Runnable {
     }
 
     private void publish(List<HackernewsItem> newsList) {
+        log.info("Publish {} news", newsList.size());
         for (HackernewsItem news : newsList) {
-            vkClient.publish(news);
+            publishWithInterruptionHandling(news);
         }
+    }
+
+    private void publishWithInterruptionHandling(HackernewsItem news) {
+        try {
+            log.info("Wait for {} millis before publishing to VK", postingDelayMillis);
+            Thread.sleep(postingDelayMillis);
+        } catch (InterruptedException ex) {
+            log.warn("Seems that app is dying, but we need to finish current publishing anyway!");
+            // ignore interruption
+        }
+        vkClient.publish(news);
     }
 
     public void setHackernewsClient(HackernewsClient hackernewsClient) {
@@ -55,5 +68,9 @@ public class Publicator implements Runnable {
 
     public void setPublishedItemsDao(PublishedItemsDao publishedItemsDao) {
         this.publishedItemsDao = publishedItemsDao;
+    }
+
+    public void setPostingDelayMillis(int postingDelayMillis) {
+        this.postingDelayMillis = postingDelayMillis;
     }
 }
