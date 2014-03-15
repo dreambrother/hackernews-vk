@@ -21,7 +21,14 @@ public class Publicator implements Runnable {
     @Override
     public void run() {
         log.info("Publish new items to VK");
+        try {
+            publishNews();
+        } catch (RuntimeException ex) {
+            log.error("Cannot publish news", ex);
+        }
+    }
 
+    private void publishNews() {
         List<HackernewsItem> items = hackernewsClient.fetchNews();
         List<HackernewsItem> publishedNews = publishedItemsDao.getLastPublishedItems();
 
@@ -34,11 +41,7 @@ public class Publicator implements Runnable {
 
     private void publish(List<HackernewsItem> newsList) {
         for (HackernewsItem news : newsList) {
-            try {
-                vkClient.publish(news);
-            } catch (RuntimeException ex) {
-                log.error("Cannot publish news", ex);
-            }
+            vkClient.publish(news);
         }
     }
 
