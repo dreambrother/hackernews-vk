@@ -5,6 +5,7 @@ import com.github.dreambrother.hackernews.dto.HackernewsItemList;
 
 import javax.xml.bind.JAXB;
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 public class PublishedItemsDaoImpl implements PublishedItemsDao {
@@ -13,6 +14,9 @@ public class PublishedItemsDaoImpl implements PublishedItemsDao {
 
     @Override
     public List<HackernewsItem> getLastPublishedItems() {
+        if (dbFile.length() == 0) {
+            return Collections.emptyList();
+        }
         return JAXB.unmarshal(dbFile, HackernewsItemList.class).getItems();
     }
 

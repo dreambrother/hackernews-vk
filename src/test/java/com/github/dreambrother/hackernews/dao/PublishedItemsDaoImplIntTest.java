@@ -40,4 +40,24 @@ public class PublishedItemsDaoImplIntTest {
 
         assertEquals(twoItems(), actual);
     }
+
+    @Test
+    public void shouldReturnEmptyListWhenFileIsEmpty() {
+        List<HackernewsItem> actual = sut.getLastPublishedItems();
+        assertEquals(0, actual.size());
+    }
+
+    @Test
+    public void shouldReturnEmptyListWhenFileIsNotExists() {
+        tmp.delete();
+        List<HackernewsItem> actual = sut.getLastPublishedItems();
+        assertEquals(0, actual.size());
+    }
+
+    @Test
+    public void shouldCreateFileIfItNotExists() {
+        tmp.delete();
+        sut.saveLastPublishedItems(threeItems());
+        assertEquals(threeItems(), sut.getLastPublishedItems());
+    }
 }
