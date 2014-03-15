@@ -5,9 +5,7 @@
             <pattern>%date [%thread] %level %logger{15} - %message</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- daily rollover -->
             <fileNamePattern>logFile.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <!-- keep 30 days' worth of history -->
             <maxHistory>10</maxHistory>
         </rollingPolicy>
     </appender>
