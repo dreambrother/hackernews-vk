@@ -4,6 +4,7 @@ import com.github.dreambrother.hackernews.client.HackernewsClientImpl;
 import com.github.dreambrother.hackernews.client.VkClientImpl;
 import com.github.dreambrother.hackernews.dao.PublishedItemsDaoImpl;
 import com.github.dreambrother.hackernews.http.PingServer;
+import com.github.dreambrother.hackernews.properties.AppProperties;
 import com.github.dreambrother.hackernews.wd.WatchdogPingHandler;
 import com.github.dreambrother.hackernews.worker.Publicator;
 import com.github.dreambrother.hackernews.worker.ScheduledPublicator;
@@ -11,8 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.util.Properties;
 
 public class HackernewsVkApp {
 
@@ -22,29 +21,29 @@ public class HackernewsVkApp {
         log.info("Start hackernews-vk publicator application");
 
         HackernewsVkApp app = new HackernewsVkApp();
-        Properties properties = app.getProperties();
+        AppProperties properties = app.getProperties();
 
         VkClientImpl vkClient = new VkClientImpl();
-        vkClient.setCommunityId(properties.getProperty("vk.communityId"));
-        vkClient.setToken(properties.getProperty("vk.token"));
+        vkClient.setCommunityId(properties.getStringProperty("vk.communityId"));
+        vkClient.setToken(properties.getStringProperty("vk.token"));
 
         HackernewsClientImpl hackernewsClient = new HackernewsClientImpl();
 
         PublishedItemsDaoImpl publishedItemsDao = new PublishedItemsDaoImpl();
-        publishedItemsDao.setDbFile(new File(properties.getProperty("db.file")));
+        publishedItemsDao.setDbFile(new File(properties.getStringProperty("db.file")));
 
         Publicator publicator = new Publicator();
         publicator.setVkClient(vkClient);
         publicator.setPublishedItemsDao(publishedItemsDao);
         publicator.setHackernewsClient(hackernewsClient);
-        publicator.setPostingDelayMillis(Integer.parseInt("publicator.delayBetweenPostingMillis"));
+        publicator.setPostingDelayMillis(properties.getIntProperty("publicator.delayBetweenPostingMillis"));
 
         ScheduledPublicator scheduledPublicator = new ScheduledPublicator();
 
         app.registerShutdownHook(scheduledPublicator);
-        app.startWdListener(Integer.parseInt(properties.getProperty("wd.ping.port")));
+        app.startWdListener(properties.getIntProperty("wd.ping.port"));
 
-        scheduledPublicator.start(publicator, Integer.parseInt(properties.getProperty("publicator.schedulerDelayMillis")));
+        scheduledPublicator.start(publicator, properties.getIntProperty("publicator.schedulerDelayMillis"));
 
         log.info("Application started");
     }
@@ -67,19 +66,13 @@ public class HackernewsVkApp {
         }));
     }
 
-    public Properties getProperties() {
-        try {
-            Properties properties = new Properties();
-            if (System.getProperty("os.name").equals("Ubuntu")) {
-                log.info("Start with PROD properties");
-                properties.load(new FileInputStream("/etc/app.properties"));
-            } else {
-                log.info("Start with DEV properties");
-                properties.load(getClass().getResourceAsStream("/app.properties"));
-            }
-            return properties;
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+    public AppProperties getProperties() {
+        if (System.getProperty("os.name").equals("Ubuntu")) {
+            log.info("Start with PROD properties");
+            return new AppProperties("/etc/app.properties");
+        } else {
+            log.info("Start with DEV properties");
+            return new AppProperties("classpath:/app.properties");
         }
     }
 }
