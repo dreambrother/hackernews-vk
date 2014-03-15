@@ -10,7 +10,7 @@
 
     <properties>
         <targetLib.foler>${project.build.directory}/lib</targetLib.foler>
-        <apache.http.version>4.3.3</apache.http.version>
+        <apache.http.version>4.3.1</apache.http.version>
     </properties>
 
     <dependencies>

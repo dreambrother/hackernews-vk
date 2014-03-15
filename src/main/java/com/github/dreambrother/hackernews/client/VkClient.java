@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface VkClient {
 
+    void publish(HackernewsItem news);
     void publish(List<HackernewsItem> items);
 }

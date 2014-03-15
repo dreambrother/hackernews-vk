@@ -38,4 +38,8 @@ public final class HackernewsItems {
 
         return items;
     }
+
+    public static HackernewsItem oneItem() {
+        return twoItems().get(0);
+    }
 }

@@ -58,4 +58,13 @@ public class HackernewsItem {
         result = 31 * result + commentsLink.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "HackernewsItem {" +
+                "title='" + title + '\'' +
+                ", link='" + link + '\'' +
+                ", commentsLink='" + commentsLink + '\'' +
+                '}';
+    }
 }
