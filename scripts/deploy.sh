@@ -1,10 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Build project"
-./make.sh
+./scripts/make.sh
 echo "Copy app to server"
 scp -r target/app hackernewsvk:
 echo "Connect to remote server"
-ssh hackernewsvk
+ssh hackernewsvk << 'endsession'
 cd app
 ./run.sh
+endsession

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ./run-java-app.sh
 

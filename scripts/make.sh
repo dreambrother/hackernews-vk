@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 mvn clean install
 mkdir target/app

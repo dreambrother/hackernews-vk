@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 trap 'echo "Exit"; exit 0' 2 3 15
 

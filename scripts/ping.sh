@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 for i in $(seq 1 10); do
     echo "Attempt $i to ping running process"

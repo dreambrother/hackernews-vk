@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 getPid() {
     pid=$(jps | grep HackernewsVkApp | awk '{print $1}')	
