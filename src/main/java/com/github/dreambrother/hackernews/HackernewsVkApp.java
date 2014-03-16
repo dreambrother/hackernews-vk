@@ -67,7 +67,7 @@ public class HackernewsVkApp {
     }
 
     private AppProperties getProperties() {
-        if (System.getProperty("os.name").equals("Ubuntu")) {
+        if (System.getProperty("os.name").equals("Linux")) {
             log.info("Start with PROD properties");
             return new AppProperties("/etc/hackernews-vk/app.properties");
         } else {
