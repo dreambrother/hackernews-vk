@@ -34,8 +34,8 @@ public class HackernewsVkApp {
 
         Publicator publicator = new Publicator();
         publicator.setVkClient(vkClient);
-        publicator.setPublishedItemsDao(publishedItemsDao);
-        publicator.setHackernewsClient(hackernewsClient);
+//        publicator.setPublishedItemsDao(publishedItemsDao);
+//        publicator.setHackernewsClient(hackernewsClient);
         publicator.setPostingDelayMillis(properties.getIntProperty("publicator.delayBetweenPostingMillis"));
 
         ScheduledPublicator scheduledPublicator = new ScheduledPublicator();

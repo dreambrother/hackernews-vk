@@ -1,8 +1,8 @@
 package com.github.dreambrother.hackernews.worker;
 
-import com.github.dreambrother.hackernews.client.HackernewsClient;
 import com.github.dreambrother.hackernews.client.VkClient;
-import com.github.dreambrother.hackernews.dao.PublishedItemsDao;
+import com.github.dreambrother.hackernews.service.HackernewsService;
+import com.github.dreambrother.hackernews.service.PublishedItemsService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -18,31 +18,31 @@ public class PublicatorTest {
     private Publicator sut = new Publicator();
 
     @Mock
-    private HackernewsClient hackernewsClientMock;
+    private HackernewsService hackernewsServiceMock;
     @Mock
-    private PublishedItemsDao publishedItemsDaoMock;
+    private PublishedItemsService publishedItemsServiceMock;
     @Mock
     private VkClient vkClientMock;
 
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
-        sut.setHackernewsClient(hackernewsClientMock);
-        sut.setPublishedItemsDao(publishedItemsDaoMock);
+        sut.setHackernewsService(hackernewsServiceMock);
+        sut.setPublishedItemsService(publishedItemsServiceMock);
         sut.setVkClient(vkClientMock);
         sut.setPostingDelayMillis(0);
     }
 
     @Test
     public void publishingScenario() {
-        when(hackernewsClientMock.fetchNews()).thenReturn(threeItems());
-        when(publishedItemsDaoMock.getLastPublishedItems()).thenReturn(twoItems());
+        when(hackernewsServiceMock.getMostPopularNews()).thenReturn(threeItems());
+        when(publishedItemsServiceMock.getLastPublishedItems()).thenReturn(twoItems());
 
         sut.run();
 
-        verify(hackernewsClientMock).fetchNews();
-        verify(publishedItemsDaoMock).getLastPublishedItems();
+        verify(hackernewsServiceMock).getMostPopularNews();
+        verify(publishedItemsServiceMock).getLastPublishedItems();
         verify(vkClientMock).publish(threeItems().get(2));
-        verify(publishedItemsDaoMock).saveLastPublishedItems(threeItems());
+        verify(publishedItemsServiceMock).saveLastPublishedItems(threeItems());
     }
 }

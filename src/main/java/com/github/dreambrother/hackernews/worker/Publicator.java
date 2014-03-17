@@ -1,9 +1,9 @@
 package com.github.dreambrother.hackernews.worker;
 
-import com.github.dreambrother.hackernews.client.HackernewsClient;
 import com.github.dreambrother.hackernews.client.VkClient;
-import com.github.dreambrother.hackernews.dao.PublishedItemsDao;
 import com.github.dreambrother.hackernews.dto.HackernewsItem;
+import com.github.dreambrother.hackernews.service.HackernewsService;
+import com.github.dreambrother.hackernews.service.PublishedItemsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,9 +14,10 @@ public class Publicator implements Runnable {
 
     public static final Logger log = LoggerFactory.getLogger(Publicator.class);
 
-    private HackernewsClient hackernewsClient;
     private VkClient vkClient;
-    private PublishedItemsDao publishedItemsDao;
+    private HackernewsService hackernewsService;
+    private PublishedItemsService publishedItemsService;
+
     private int postingDelayMillis;
 
     @Override
@@ -30,15 +31,15 @@ public class Publicator implements Runnable {
     }
 
     private void publishNews() {
-        List<HackernewsItem> items = hackernewsClient.fetchNews();
-        List<HackernewsItem> publishedNews = publishedItemsDao.getLastPublishedItems();
+        List<HackernewsItem> items = hackernewsService.getMostPopularNews();
+        List<HackernewsItem> publishedNews = publishedItemsService.getLastPublishedItems();
 
         List<HackernewsItem> itemsToPublish = new ArrayList<>(items);
         itemsToPublish.removeAll(publishedNews);
 
         publish(itemsToPublish);
         log.info("Save published items");
-        publishedItemsDao.saveLastPublishedItems(items);
+        publishedItemsService.saveLastPublishedItems(items);
     }
 
     private void publish(List<HackernewsItem> newsList) {
@@ -60,16 +61,16 @@ public class Publicator implements Runnable {
         vkClient.publish(news);
     }
 
-    public void setHackernewsClient(HackernewsClient hackernewsClient) {
-        this.hackernewsClient = hackernewsClient;
-    }
-
     public void setVkClient(VkClient vkClient) {
         this.vkClient = vkClient;
     }
 
-    public void setPublishedItemsDao(PublishedItemsDao publishedItemsDao) {
-        this.publishedItemsDao = publishedItemsDao;
+    public void setHackernewsService(HackernewsService hackernewsService) {
+        this.hackernewsService = hackernewsService;
+    }
+
+    public void setPublishedItemsService(PublishedItemsService publishedItemsService) {
+        this.publishedItemsService = publishedItemsService;
     }
 
     public void setPostingDelayMillis(int postingDelayMillis) {
