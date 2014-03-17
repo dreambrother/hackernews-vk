@@ -11,6 +11,7 @@ import javax.xml.bind.JAXB;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 public class HackernewsClientImpl implements HackernewsClient {
 
@@ -25,6 +26,11 @@ public class HackernewsClientImpl implements HackernewsClient {
         } catch (IOException e) {
             throw new RuntimeIOException(e);
         }
+    }
+
+    @Override
+    public Map<HackernewsItem, Integer> fetchRatings() {
+        throw new UnsupportedOperationException();
     }
 
     private HackernewsResponse unmarshall(InputStream response) {
