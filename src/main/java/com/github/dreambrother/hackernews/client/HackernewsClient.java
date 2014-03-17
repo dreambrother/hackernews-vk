@@ -8,5 +8,5 @@ import java.util.Map;
 public interface HackernewsClient {
 
     List<HackernewsItem> fetchNews();
-    Map<HackernewsItem, Integer> fetchRatings();
+    Map<String, Integer> fetchRatings();
 }

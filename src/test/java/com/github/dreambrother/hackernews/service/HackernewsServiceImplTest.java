@@ -40,10 +40,10 @@ public class HackernewsServiceImplTest {
         assertEquals(Arrays.asList(threeItems().get(1), threeItems().get(2)), mostPopularNews);
     }
 
-    private Map<HackernewsItem, Integer> withRating(List<HackernewsItem> items) {
-        Map<HackernewsItem, Integer> result = new HashMap<>();
+    private Map<String, Integer> withRating(List<HackernewsItem> items) {
+        Map<String, Integer> result = new HashMap<>();
         for (int i = 0; i < items.size(); i++) {
-            result.put(items.get(i), i * 100);
+            result.put(items.get(i).getTitle(), i * 100);
         }
         return result;
     }

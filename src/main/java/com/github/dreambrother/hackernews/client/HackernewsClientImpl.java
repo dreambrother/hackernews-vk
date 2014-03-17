@@ -3,6 +3,7 @@ package com.github.dreambrother.hackernews.client;
 import com.github.dreambrother.hackernews.dto.HackernewsItem;
 import com.github.dreambrother.hackernews.dto.HackernewsResponse;
 import com.github.dreambrother.hackernews.exceptions.RuntimeIOException;
+import com.github.dreambrother.hackernews.utils.HackernewsHtmlUtils;
 import org.apache.http.client.fluent.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +30,14 @@ public class HackernewsClientImpl implements HackernewsClient {
     }
 
     @Override
-    public Map<HackernewsItem, Integer> fetchRatings() {
-        throw new UnsupportedOperationException();
+    public Map<String, Integer> fetchRatings() {
+        log.info("Try to fetch ratings");
+        try {
+            String html = Request.Get("https://news.ycombinator.com").execute().returnContent().asString();
+            return HackernewsHtmlUtils.parseRating(html);
+        } catch (IOException ex) {
+            throw new RuntimeIOException(ex);
+        }
     }
 
     private HackernewsResponse unmarshall(InputStream response) {

@@ -15,11 +15,11 @@ public class HackernewsServiceImpl implements HackernewsService {
     @Override
     public List<HackernewsItem> getMostPopularNews() {
         List<HackernewsItem> hackernewsItems = hackernewsClient.fetchNews();
-        Map<HackernewsItem, Integer> ratings = hackernewsClient.fetchRatings();
+        Map<String, Integer> ratings = hackernewsClient.fetchRatings();
 
         List<HackernewsItem> filtered = new ArrayList<>();
         for (HackernewsItem news : hackernewsItems) {
-            if (ratings.get(news) >= minPopularity) {
+            if (ratings.get(news.getTitle()) >= minPopularity) {
                 filtered.add(news);
             }
         }
