@@ -38,8 +38,10 @@ public class Publicator implements Runnable {
         itemsToPublish.removeAll(publishedNews);
 
         publish(itemsToPublish);
+
+        publishedNews.addAll(itemsToPublish);
         log.info("Save published items");
-        publishedItemsService.saveLastPublishedItems(items);
+        publishedItemsService.saveLastPublishedItems(publishedNews);
     }
 
     private void publish(List<HackernewsItem> newsList) {
