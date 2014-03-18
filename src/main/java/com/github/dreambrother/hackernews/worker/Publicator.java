@@ -31,17 +31,17 @@ public class Publicator implements Runnable {
     }
 
     private void publishNews() {
-        List<HackernewsItem> items = hackernewsService.getMostPopularNews();
+        List<HackernewsItem> mostPopularNews = hackernewsService.getMostPopularNews();
         List<HackernewsItem> publishedNews = publishedItemsService.getLastPublishedItems();
 
-        List<HackernewsItem> itemsToPublish = new ArrayList<>(items);
+        List<HackernewsItem> itemsToPublish = new ArrayList<>(mostPopularNews);
         itemsToPublish.removeAll(publishedNews);
 
         publish(itemsToPublish);
 
-        publishedNews.addAll(itemsToPublish);
-        log.info("Save published items");
-        publishedItemsService.saveLastPublishedItems(publishedNews);
+        List<HackernewsItem> allPublishedNews = new ArrayList<>(publishedNews);
+        allPublishedNews.addAll(itemsToPublish);
+        publishedItemsService.saveLastPublishedItems(allPublishedNews);
     }
 
     private void publish(List<HackernewsItem> newsList) {
