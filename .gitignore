@@ -2,8 +2,5 @@
 *.iml
 .idea
 target
+log/
 
-# Package Files #
-*.jar
-*.war
-*.ear
