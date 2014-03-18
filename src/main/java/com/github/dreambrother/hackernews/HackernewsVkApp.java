@@ -5,6 +5,8 @@ import com.github.dreambrother.hackernews.client.VkClientImpl;
 import com.github.dreambrother.hackernews.dao.PublishedItemsDaoImpl;
 import com.github.dreambrother.hackernews.http.PingServer;
 import com.github.dreambrother.hackernews.properties.AppProperties;
+import com.github.dreambrother.hackernews.service.HackernewsServiceImpl;
+import com.github.dreambrother.hackernews.service.PublishedItemsServiceImpl;
 import com.github.dreambrother.hackernews.wd.WatchdogPingHandler;
 import com.github.dreambrother.hackernews.worker.Publicator;
 import com.github.dreambrother.hackernews.worker.ScheduledPublicator;
@@ -32,10 +34,18 @@ public class HackernewsVkApp {
         PublishedItemsDaoImpl publishedItemsDao = new PublishedItemsDaoImpl();
         publishedItemsDao.setDbFile(new File(properties.getStringProperty("db.file")));
 
+        HackernewsServiceImpl hackernewsService = new HackernewsServiceImpl();
+        hackernewsService.setHackernewsClient(hackernewsClient);
+        hackernewsService.setMinPopularity(properties.getIntProperty("publicator.minPopularity"));
+
+        PublishedItemsServiceImpl publishedItemsService = new PublishedItemsServiceImpl();
+        publishedItemsService.setPublishedItemsDao(publishedItemsDao);
+        publishedItemsService.setLimit(properties.getIntProperty("db.storedItemsLimit"));
+
         Publicator publicator = new Publicator();
         publicator.setVkClient(vkClient);
-//        publicator.setPublishedItemsDao(publishedItemsDao);
-//        publicator.setHackernewsClient(hackernewsClient);
+        publicator.setHackernewsService(hackernewsService);
+        publicator.setPublishedItemsService(publishedItemsService);
         publicator.setPostingDelayMillis(properties.getIntProperty("publicator.delayBetweenPostingMillis"));
 
         ScheduledPublicator scheduledPublicator = new ScheduledPublicator();
