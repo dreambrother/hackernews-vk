@@ -19,7 +19,8 @@ public class HackernewsServiceImpl implements HackernewsService {
 
         List<HackernewsItem> filtered = new ArrayList<>();
         for (HackernewsItem news : hackernewsItems) {
-            if (ratings.get(news.getTitle()) >= minPopularity) {
+            Integer rating = ratings.get(news.getTitle());
+            if (rating != null && rating >= minPopularity) {
                 filtered.add(news);
             }
         }
