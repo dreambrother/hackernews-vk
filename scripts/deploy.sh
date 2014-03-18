@@ -7,5 +7,5 @@ scp -r target/app hackernewsvk:
 echo "Connect to remote server"
 ssh hackernewsvk << 'endsession'
 cd app
-./restart.sh
+./run.sh
 endsession
