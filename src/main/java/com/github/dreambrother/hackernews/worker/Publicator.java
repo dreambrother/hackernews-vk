@@ -39,8 +39,8 @@ public class Publicator implements Runnable {
 
         publish(itemsToPublish);
 
-        List<HackernewsItem> allPublishedNews = new ArrayList<>(publishedNews);
-        allPublishedNews.addAll(itemsToPublish);
+        List<HackernewsItem> allPublishedNews = new ArrayList<>(itemsToPublish);
+        allPublishedNews.addAll(publishedNews);
         publishedItemsService.saveLastPublishedItems(allPublishedNews);
     }
 
