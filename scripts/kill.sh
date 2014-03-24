@@ -20,20 +20,23 @@ killSafely() {
     fi
 }
 
-for i in $(seq 1 5); do
-    echo "Attempt $i to terminate watchdog"
-    getWdPid
-    killSafely $wdPid
-    if $dead; then
-        break
-    fi
-    echo "Sleep for 5s"
-    sleep 5s
-done
+if [ -n "$1" ]; then 
+    echo "Kill watchdog too"
+    for i in $(seq 1 5); do
+        echo "Attempt $i to terminate watchdog"
+        getWdPid
+        killSafely $wdPid
+        if $dead; then
+            break
+        fi
+        echo "Sleep for 5s"
+        sleep 5s
+    done
 
-if ! $dead; then
-    echo "Watchdog cannot be terminated safely, kill it"
-    kill -9 $wdPid
+    if ! $dead; then
+        echo "Watchdog cannot be terminated safely, kill it"
+        kill -9 $wdPid
+    fi
 fi
 
 for i in $(seq 1 5); do
