@@ -1,24 +1,24 @@
 package com.github.dreambrother.hackernews.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dreambrother.hackernews.dto.HackernewsItem;
 import com.github.dreambrother.hackernews.exceptions.RuntimeIOException;
 import com.github.dreambrother.hackernews.exceptions.VkException;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Map;
 
 public class VkClientImpl implements VkClient {
 
     private static final Logger log = LoggerFactory.getLogger(VkClientImpl.class);
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     private String token;
     private String communityId;
@@ -27,13 +27,14 @@ public class VkClientImpl implements VkClient {
     public void publish(HackernewsItem news) {
         log.info("Publish {}", news);
         try {
-            HttpResponse httpResponse = Request.Post("https://api.vk.com/method/wall.post")
+            String responseString = Request.Post("https://api.vk.com/method/wall.post")
                     .bodyForm(paramsForNews(news), Charset.forName("UTF-8"))
-                    .execute().returnResponse();
+                    .execute().returnContent().asString();
 
-            if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-                handleError(httpResponse);
-            }
+            log.info("VK response {}", responseString);
+
+            Map<String, String> response = mapper.readValue(responseString, Map.class);
+            checkResponse(response);
         } catch (IOException e) {
             throw new RuntimeIOException(e);
         }
@@ -50,12 +51,9 @@ public class VkClientImpl implements VkClient {
         );
     }
 
-    private void handleError(HttpResponse httpResponse) {
-        try {
-            String error = EntityUtils.toString(httpResponse.getEntity());
-            throw new VkException(error);
-        } catch (IOException e) {
-            throw new RuntimeIOException(e);
+    private void checkResponse(Map<String, String> response) {
+        if (response.get("response") == null) {
+            throw new VkException("VK response contains error");
         }
     }
 

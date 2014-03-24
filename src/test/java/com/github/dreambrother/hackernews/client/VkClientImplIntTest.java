@@ -1,5 +1,6 @@
 package com.github.dreambrother.hackernews.client;
 
+import com.github.dreambrother.hackernews.exceptions.VkException;
 import org.junit.Test;
 
 import static com.github.dreambrother.hackernews.fixture.HackernewsItems.oneItem;
@@ -20,5 +21,14 @@ public class VkClientImplIntTest {
     @Test
     public void shouldPublishNews() {
         sut.publish(oneItem());
+    }
+
+    @Test(expected = VkException.class)
+    public void shouldThrowExceptionInCaseOfError() {
+        VkClientImpl invalidClient = new VkClientImpl();
+        invalidClient.setToken("invalid");
+        invalidClient.setCommunityId("invalid");
+
+        invalidClient.publish(oneItem());
     }
 }
