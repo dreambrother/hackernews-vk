@@ -10,7 +10,7 @@ public class AppPropertiesIntTest {
 
     @Test
     public void shouldGetStringProperty() {
-        String actual = sut.getStringProperty("vk.token");
+        String actual = sut.getStringProperty("db.file");
         assertTrue(!actual.isEmpty());
     }
 
