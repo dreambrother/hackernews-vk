@@ -23,6 +23,12 @@ public class ScheduledPublicator {
         if (scheduledExecutorService != null) {
             log.info("Shutdown scheduled publicator");
             scheduledExecutorService.shutdown();
+            log.info("Wait for termination of scheduled publicator");
+            try {
+                scheduledExecutorService.awaitTermination(5L, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                log.error("Scheduled publicator termination failed", e);
+            }
         } else {
             log.warn("Attempt to shutdown scheduled publicator without starting it!");
         }
