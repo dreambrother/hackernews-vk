@@ -14,7 +14,7 @@ public class HackernewsServiceImpl implements HackernewsService {
     private PublishedItemsDao publishedItemsDao;
 
     @Override
-    public List<HackernewsItem> getMostPopularNews() {
+    public List<HackernewsItem> getMostPopularNonPublishedNews() {
         List<Long> publishedItems = publishedItemsDao.getLastPublishedIds();
         List<Long> newsIds = new ArrayList<>(hackernewsClient.fetchNewsIds());
         newsIds.removeAll(publishedItems);

@@ -39,7 +39,7 @@ public class HackernewsServiceImplTest {
         when(hackernewsClientMock.fetchNewsItem(2l)).thenReturn(twoItems().get(0));
         when(hackernewsClientMock.fetchNewsItem(3l)).thenReturn(twoItems().get(1));
 
-        List<HackernewsItem> mostPopularNews = sut.getMostPopularNews();
+        List<HackernewsItem> mostPopularNews = sut.getMostPopularNonPublishedNews();
 
         assertEquals(Arrays.asList(twoItems().get(0)), mostPopularNews);
     }

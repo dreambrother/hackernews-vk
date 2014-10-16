@@ -31,17 +31,9 @@ public class Publicator implements Runnable {
     }
 
     private void publishNews() {
-        List<HackernewsItem> mostPopularNews = hackernewsService.getMostPopularNews();
-        List<HackernewsItem> publishedNews = publishedItemsService.getLastPublishedItems();
-
-        List<HackernewsItem> itemsToPublish = new ArrayList<>(mostPopularNews);
-        itemsToPublish.removeAll(publishedNews);
-
-        publish(itemsToPublish);
-
-        List<HackernewsItem> allPublishedNews = new ArrayList<>(itemsToPublish);
-        allPublishedNews.addAll(publishedNews);
-        publishedItemsService.saveLastPublishedItems(allPublishedNews);
+        List<HackernewsItem> mostPopularNews = hackernewsService.getMostPopularNonPublishedNews();
+        publish(mostPopularNews);
+        publishedItemsService.saveNewPublishedIds(toIds(mostPopularNews));
     }
 
     private void publish(List<HackernewsItem> newsList) {
@@ -61,6 +53,14 @@ public class Publicator implements Runnable {
             // ignore interruption
         }
         vkClient.publish(news);
+    }
+
+    private List<Long> toIds(List<HackernewsItem> items) {
+        List<Long> result = new ArrayList<>(items.size());
+        for (HackernewsItem item : items) {
+            result.add(item.getId());
+        }
+        return result;
     }
 
     public void setVkClient(VkClient vkClient) {

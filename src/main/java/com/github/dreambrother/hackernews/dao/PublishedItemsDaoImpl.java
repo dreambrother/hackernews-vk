@@ -1,6 +1,5 @@
 package com.github.dreambrother.hackernews.dao;
 
-import com.github.dreambrother.hackernews.dto.HackernewsItem;
 import com.github.dreambrother.hackernews.exceptions.RuntimeIOException;
 import com.github.dreambrother.hackernews.utils.HackernewsJsonUtils;
 
@@ -12,16 +11,6 @@ import java.util.List;
 public class PublishedItemsDaoImpl implements PublishedItemsDao {
 
     private File dbFile;
-
-    @Override
-    public List<HackernewsItem> getLastPublishedItems() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void saveLastPublishedItems(List<HackernewsItem> items) {
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public void saveLastPublishedIds(List<Long> ids) {

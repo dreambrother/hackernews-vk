@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface HackernewsService {
 
-    List<HackernewsItem> getMostPopularNews();
+    List<HackernewsItem> getMostPopularNonPublishedNews();
 }
