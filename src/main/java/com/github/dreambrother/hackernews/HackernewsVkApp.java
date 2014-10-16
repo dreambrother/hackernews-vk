@@ -30,6 +30,7 @@ public class HackernewsVkApp {
         vkClient.setToken(properties.getStringProperty("vk.token"));
 
         HackernewsClientImpl hackernewsClient = new HackernewsClientImpl();
+        hackernewsClient.setHackernewsUrl(properties.getStringProperty("hackernews.url"));
 
         PublishedItemsDaoImpl publishedItemsDao = new PublishedItemsDaoImpl();
         publishedItemsDao.setDbFile(new File(properties.getStringProperty("db.file")));
