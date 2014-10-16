@@ -1,14 +1,12 @@
 package com.github.dreambrother.hackernews.dao;
 
-import com.github.dreambrother.hackernews.dto.HackernewsItem;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
-import static com.github.dreambrother.hackernews.fixture.HackernewsItems.threeItems;
-import static com.github.dreambrother.hackernews.fixture.HackernewsItems.twoItems;
 import static org.junit.Assert.assertEquals;
 
 public class PublishedItemsDaoImplIntTest {
@@ -24,40 +22,45 @@ public class PublishedItemsDaoImplIntTest {
 
     @Test
     public void shoudSaveAndGetPublishedItems() {
-        sut.saveLastPublishedItems(threeItems());
+        List<Long> ids = Arrays.asList(1l, 2l, 3l);
+        sut.saveLastPublishedIds(ids);
 
-        List<HackernewsItem> actual = sut.getLastPublishedItems();
+        List<Long> actual = sut.getLastPublishedIds();
 
-        assertEquals(threeItems(), actual);
+        assertEquals(ids, actual);
     }
 
     @Test
     public void shouldGetLastPublishedItems() {
-        sut.saveLastPublishedItems(threeItems());
-        sut.saveLastPublishedItems(twoItems());
+        sut.saveLastPublishedIds(Arrays.asList(1l, 2l, 3l));
+        List<Long> ids = Arrays.asList(1l, 2l);
+        sut.saveLastPublishedIds(ids);
 
-        List<HackernewsItem> actual = sut.getLastPublishedItems();
+        List<Long> actual = sut.getLastPublishedIds();
 
-        assertEquals(twoItems(), actual);
+        assertEquals(ids, actual);
     }
 
     @Test
     public void shouldReturnEmptyListWhenFileIsEmpty() {
-        List<HackernewsItem> actual = sut.getLastPublishedItems();
+        List<Long> actual = sut.getLastPublishedIds();
         assertEquals(0, actual.size());
     }
 
     @Test
     public void shouldReturnEmptyListWhenFileIsNotExists() {
         tmp.delete();
-        List<HackernewsItem> actual = sut.getLastPublishedItems();
+        List<Long> actual = sut.getLastPublishedIds();
         assertEquals(0, actual.size());
     }
 
     @Test
     public void shouldCreateFileIfItNotExists() {
         tmp.delete();
-        sut.saveLastPublishedItems(threeItems());
-        assertEquals(threeItems(), sut.getLastPublishedItems());
+        List<Long> ids = Arrays.asList(1l);
+
+        sut.saveLastPublishedIds(ids);
+
+        assertEquals(ids, sut.getLastPublishedIds());
     }
 }

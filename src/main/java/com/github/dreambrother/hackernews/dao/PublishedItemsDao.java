@@ -6,6 +6,11 @@ import java.util.List;
 
 public interface PublishedItemsDao {
 
+    @Deprecated
     List getLastPublishedItems();
+    @Deprecated
     void saveLastPublishedItems(List<HackernewsItem> items);
+
+    List<Long> getLastPublishedIds();
+    void saveLastPublishedIds(List<Long> ids);
 }
