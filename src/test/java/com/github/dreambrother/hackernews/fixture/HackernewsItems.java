@@ -16,12 +16,14 @@ public final class HackernewsItems {
         itemOne.setId(1L);
         itemOne.setTitle("Item One");
         itemOne.setUrl("http://item.one");
+        itemOne.setScore(100);
         items.add(itemOne);
 
         HackernewsItem itemTwo = new HackernewsItem();
         itemTwo.setId(2L);
         itemTwo.setTitle("Item two");
         itemTwo.setUrl("http://item.two");
+        itemTwo.setScore(30);
         items.add(itemTwo);
 
         return items;
@@ -34,6 +36,7 @@ public final class HackernewsItems {
         item.setId(3L);
         item.setTitle("Item Three");
         item.setUrl("http://item.three");
+        item.setScore(150);
         items.add(item);
 
         return items;

@@ -9,23 +9,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class HackernewsClientImpl implements HackernewsClient {
 
     private static final Logger log = LoggerFactory.getLogger(HackernewsClientImpl.class);
 
     private String hackernewsUrl;
-
-    @Override
-    public List<HackernewsItem> fetchNews() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Map<String, Integer> fetchRatings() {
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public List<Long> fetchNewsIds() {

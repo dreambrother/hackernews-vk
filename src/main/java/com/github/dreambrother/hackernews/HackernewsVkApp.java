@@ -37,6 +37,7 @@ public class HackernewsVkApp {
 
         HackernewsServiceImpl hackernewsService = new HackernewsServiceImpl();
         hackernewsService.setHackernewsClient(hackernewsClient);
+        hackernewsService.setPublishedItemsDao(publishedItemsDao);
         hackernewsService.setMinPopularity(properties.getIntProperty("publicator.minPopularity"));
 
         PublishedItemsServiceImpl publishedItemsService = new PublishedItemsServiceImpl();
