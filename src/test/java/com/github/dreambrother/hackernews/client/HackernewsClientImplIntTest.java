@@ -1,45 +1,39 @@
 package com.github.dreambrother.hackernews.client;
 
 import com.github.dreambrother.hackernews.dto.HackernewsItem;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.Map;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class HackernewsClientImplIntTest {
 
     private HackernewsClientImpl sut = new HackernewsClientImpl();
 
+    @Before
+    public void setUp() throws Exception {
+        sut.setHackernewsUrl("https://hacker-news.firebaseio.com/v0");
+    }
+
     @Test
     public void shouldFetchNews() {
-        List<HackernewsItem> items = sut.fetchNews();
-        assertNotEmpty(items);
+        List<Long> items = sut.fetchNewsIds();
+        assertFalse(items.isEmpty());
     }
 
     @Test
-    public void shouldFetchRatings() {
-        Map<String, Integer> ratings = sut.fetchRatings();
-        assertNotEmpty(ratings);
+    public void shouldFetchNewsItem() {
+        HackernewsItem actual = sut.fetchNewsItem(8466437L);
+        assertNotEmpty(actual);
     }
 
-    private void assertNotEmpty(List<HackernewsItem> items) {
-        assertTrue(items != null && !items.isEmpty());
-
-        HackernewsItem item = items.get(0);
+    private void assertNotEmpty(HackernewsItem item) {
+        assertTrue(item.getId() > 0);
         assertTrue(notEmpty(item.getTitle()));
-        assertTrue(notEmpty(item.getLink()));
-        assertTrue(notEmpty(item.getCommentsLink()));
-    }
-
-    private void assertNotEmpty(Map<String, Integer> ratings) {
-        assertTrue(!ratings.isEmpty());
-        for (Map.Entry<String, Integer> rating : ratings.entrySet()) {
-            assertTrue(!rating.getKey().isEmpty());
-            assertTrue(rating.getValue() != null);
-            return;
-        }
+        assertTrue(notEmpty(item.getUrl()));
     }
 
     private boolean notEmpty(String str) {

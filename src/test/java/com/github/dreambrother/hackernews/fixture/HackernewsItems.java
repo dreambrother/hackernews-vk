@@ -13,15 +13,15 @@ public final class HackernewsItems {
         List<HackernewsItem> items = new ArrayList<>();
 
         HackernewsItem itemOne = new HackernewsItem();
+        itemOne.setId(1L);
         itemOne.setTitle("Item One");
-        itemOne.setLink("http://item.one");
-        itemOne.setCommentsLink("http://item.one/comments");
+        itemOne.setUrl("http://item.one");
         items.add(itemOne);
 
         HackernewsItem itemTwo = new HackernewsItem();
+        itemTwo.setId(2L);
         itemTwo.setTitle("Item two");
-        itemTwo.setLink("http://item.two");
-        itemTwo.setCommentsLink("http://item.two/comments");
+        itemTwo.setUrl("http://item.two");
         items.add(itemTwo);
 
         return items;
@@ -31,9 +31,9 @@ public final class HackernewsItems {
         List<HackernewsItem> items = new ArrayList<>(twoItems());
 
         HackernewsItem item = new HackernewsItem();
+        item.setId(3L);
         item.setTitle("Item Three");
-        item.setLink("http://item.three");
-        item.setCommentsLink("http://item.three/comments");
+        item.setUrl("http://item.three");
         items.add(item);
 
         return items;

@@ -7,6 +7,11 @@ import java.util.Map;
 
 public interface HackernewsClient {
 
+    @Deprecated
     List<HackernewsItem> fetchNews();
+    @Deprecated
     Map<String, Integer> fetchRatings();
+
+    List<Long> fetchNewsIds();
+    HackernewsItem fetchNewsItem(Long id);
 }

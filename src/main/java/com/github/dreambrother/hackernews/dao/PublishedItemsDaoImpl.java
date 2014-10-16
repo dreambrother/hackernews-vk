@@ -1,9 +1,8 @@
 package com.github.dreambrother.hackernews.dao;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.dreambrother.hackernews.dto.HackernewsItem;
 import com.github.dreambrother.hackernews.exceptions.RuntimeIOException;
+import com.github.dreambrother.hackernews.utils.HackernewsJsonUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,8 +11,6 @@ import java.util.List;
 
 public class PublishedItemsDaoImpl implements PublishedItemsDao {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
-    private JavaType idsType = objectMapper.getTypeFactory().constructCollectionType(List.class, Long.class);
     private File dbFile;
 
     @Override
@@ -29,7 +26,7 @@ public class PublishedItemsDaoImpl implements PublishedItemsDao {
     @Override
     public void saveLastPublishedIds(List<Long> ids) {
         try {
-            objectMapper.writeValue(dbFile, ids);
+            HackernewsJsonUtils.MAPPER.writeValue(dbFile, ids);
         } catch (IOException e) {
             throw new RuntimeIOException(e);
         }
@@ -41,7 +38,7 @@ public class PublishedItemsDaoImpl implements PublishedItemsDao {
             return Collections.emptyList();
         }
         try {
-            return objectMapper.readValue(dbFile, idsType);
+            return HackernewsJsonUtils.MAPPER.readValue(dbFile, HackernewsJsonUtils.IDS_TYPE);
         } catch (IOException e) {
             throw new RuntimeIOException(e);
         }
