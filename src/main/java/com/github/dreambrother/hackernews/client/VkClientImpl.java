@@ -62,7 +62,7 @@ public class VkClientImpl implements VkClient {
     }
 
     private String formatMessage(HackernewsItem news) {
-        return String.format("%s%n Comments: %s", news.getTitle(), news.getCommentsLink());
+        return String.format("%s%nComments: %s", news.getTitle(), "https://news.ycombinator.com/item?id=" + news.getId());
     }
 
     public void setToken(String token) {

@@ -30,7 +30,12 @@ public class HackernewsItem {
         this.url = url;
     }
 
-    public String getCommentsLink() {
-        throw new UnsupportedOperationException();
+    @Override
+    public String toString() {
+        return "HackernewsItem{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", url='" + url + '\'' +
+                '}';
     }
 }

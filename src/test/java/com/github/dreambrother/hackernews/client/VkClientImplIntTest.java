@@ -11,7 +11,7 @@ public class VkClientImplIntTest {
 
     private static final String TOKEN_URL = "https://oauth.vk.com/authorize?client_id=4245307&scope=wall,offline&redirect_uri=https://oauth.vk.com/blank.html&display=page&v=5.14&response_type=token";
     private String token = "";
-    private String communityId = "-68122109";
+    private String communityId = "-78812350";
 
     private VkClientImpl sut = new VkClientImpl();
 
