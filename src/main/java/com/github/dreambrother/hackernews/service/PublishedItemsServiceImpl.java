@@ -28,13 +28,13 @@ public class PublishedItemsServiceImpl implements PublishedItemsService {
 
         List<Long> lastPublishedIds = publishedItemsDao.getLastPublishedIds();
 
-        newPublishedIds = new ArrayList<>(newPublishedIds);
-        newPublishedIds.addAll(lastPublishedIds);
+        List<Long> allPublishedIds = new ArrayList<>(newPublishedIds);
+        allPublishedIds.addAll(lastPublishedIds);
 
-        int saveLimit = limit < newPublishedIds.size() ? limit : newPublishedIds.size();
+        int saveLimit = limit < allPublishedIds.size() ? limit : allPublishedIds.size();
         log.info("Save {} published items", saveLimit);
 
-        List<Long> idsToSave = newPublishedIds.subList(0, saveLimit);
+        List<Long> idsToSave = allPublishedIds.subList(0, saveLimit);
         publishedItemsDao.saveLastPublishedIds(idsToSave);
     }
 
