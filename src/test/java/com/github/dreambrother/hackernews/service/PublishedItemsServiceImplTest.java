@@ -57,7 +57,7 @@ public class PublishedItemsServiceImplTest {
 
         sut.saveNewPublishedIds(Arrays.asList(3l ,4l));
 
-        verify(publishedItemsDaoMock).saveLastPublishedIds(Arrays.asList(1l, 2l, 3l, 4l));
+        verify(publishedItemsDaoMock).saveLastPublishedIds(Arrays.asList(3l, 4l, 1l, 2l));
     }
 
     @Test
