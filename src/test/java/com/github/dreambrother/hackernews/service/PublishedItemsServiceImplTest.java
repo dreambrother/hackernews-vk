@@ -62,7 +62,7 @@ public class PublishedItemsServiceImplTest {
 
     @Test
     public void shouldNotSaveIfIdsIsEmpty() {
-        sut.saveNewPublishedIds(Collections.<Long>emptyList());
+        sut.saveNewPublishedIds(Collections.EMPTY_LIST);
         verifyZeroInteractions(publishedItemsDaoMock);
     }
 }
