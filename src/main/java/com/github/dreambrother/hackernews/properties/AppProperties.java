@@ -1,6 +1,7 @@
 package com.github.dreambrother.hackernews.properties;
 
 import com.github.dreambrother.hackernews.exceptions.RuntimeIOException;
+import com.github.dreambrother.hackernews.exceptions.UnknownPropertyException;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -28,10 +29,14 @@ public class AppProperties {
     }
 
     public String getStringProperty(String name) {
-        return source.getProperty(name);
+        String value = source.getProperty(name);
+        if (value == null) {
+            throw new UnknownPropertyException("Unknown property " + name);
+        }
+        return value;
     }
 
     public int getIntProperty(String name) {
-        return Integer.parseInt(source.getProperty(name));
+        return Integer.parseInt(getStringProperty(name));
     }
 }

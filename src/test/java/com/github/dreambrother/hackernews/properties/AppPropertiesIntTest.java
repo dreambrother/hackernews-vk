@@ -1,5 +1,6 @@
 package com.github.dreambrother.hackernews.properties;
 
+import com.github.dreambrother.hackernews.exceptions.UnknownPropertyException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -18,5 +19,15 @@ public class AppPropertiesIntTest {
     public void shouldGetIntProperty() {
         int actual = sut.getIntProperty("wd.ping.port");
         assertTrue(actual > 0);
+    }
+
+    @Test(expected = UnknownPropertyException.class)
+    public void shouldFailOnUnknownIntProperty() {
+        sut.getIntProperty("unknown");
+    }
+
+    @Test(expected = UnknownPropertyException.class)
+    public void shouldFailOnUnknownStringPropety() {
+        sut.getStringProperty("unknown");
     }
 }
