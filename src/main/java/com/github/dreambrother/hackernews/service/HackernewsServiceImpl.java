@@ -16,17 +16,17 @@ public class HackernewsServiceImpl implements HackernewsService {
     @Override
     public List<HackernewsItem> getMostPopularNonPublishedNews() {
         List<Long> publishedItems = publishedItemsDao.getLastPublishedIds();
-        List<Long> newsIds = new ArrayList<>(hackernewsClient.fetchNewsIds());
-        newsIds.removeAll(publishedItems);
+        List<Long> nonPoblishedIds = new ArrayList<>(hackernewsClient.fetchNewsIds());
+        nonPoblishedIds.removeAll(publishedItems);
 
-        List<HackernewsItem> filtered = new ArrayList<>();
-        for (Long id : newsIds) {
+        List<HackernewsItem> mostPopularIds = new ArrayList<>();
+        for (Long id : nonPoblishedIds) {
             HackernewsItem item = hackernewsClient.fetchNewsItem(id);
             if (item.getScore() >= minPopularity) {
-                filtered.add(item);
+                mostPopularIds.add(item);
             }
         }
-        return filtered;
+        return mostPopularIds;
     }
 
     public void setPublishedItemsDao(PublishedItemsDao publishedItemsDao) {
