@@ -12,6 +12,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 public class PublishedItemsServiceImplTest {
@@ -57,5 +58,11 @@ public class PublishedItemsServiceImplTest {
         sut.saveNewPublishedIds(Arrays.asList(3l ,4l));
 
         verify(publishedItemsDaoMock).saveLastPublishedIds(Arrays.asList(1l, 2l, 3l, 4l));
+    }
+
+    @Test
+    public void shouldNotSaveIfIdsIsEmpty() {
+        sut.saveNewPublishedIds(Collections.<Long>emptyList());
+        verifyZeroInteractions(publishedItemsDaoMock);
     }
 }
