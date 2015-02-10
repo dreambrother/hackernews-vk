@@ -7,7 +7,6 @@ import com.github.dreambrother.hackernews.service.PublishedItemsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Publicator implements Runnable {
@@ -32,13 +31,9 @@ public class Publicator implements Runnable {
 
     private void publishNews() {
         List<HackernewsItem> mostPopularNews = hackernewsService.getMostPopularNonPublishedNews();
-        publish(mostPopularNews);
-        publishedItemsService.saveNewPublishedIds(toIds(mostPopularNews));
-    }
 
-    private void publish(List<HackernewsItem> newsList) {
-        log.info("Publish {} news", newsList.size());
-        for (HackernewsItem news : newsList) {
+        log.info("Publish {} news", mostPopularNews.size());
+        for (HackernewsItem news : mostPopularNews) {
             publishWithInterruptionHandling(news);
         }
         log.info("Finish publishing");
@@ -52,15 +47,16 @@ public class Publicator implements Runnable {
             log.warn("Seems that app is dying, but we need to finish current publishing anyway!");
             // ignore interruption
         }
-        vkClient.publish(news);
+        publish(news);
     }
 
-    private List<Long> toIds(List<HackernewsItem> items) {
-        List<Long> result = new ArrayList<>(items.size());
-        for (HackernewsItem item : items) {
-            result.add(item.getId());
+    private void publish(HackernewsItem news) {
+        try {
+            vkClient.publish(news);
+            publishedItemsService.saveNewPublishedId(news.getId());
+        } catch (Exception ex) {
+            log.warn("Error while publishing {}, skip it", news);
         }
-        return result;
     }
 
     public void setVkClient(VkClient vkClient) {

@@ -7,12 +7,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 public class PublishedItemsServiceImplTest {
@@ -45,24 +43,9 @@ public class PublishedItemsServiceImplTest {
         sutWithSmallLimit.setLimit(2);
         sutWithSmallLimit.setPublishedItemsDao(publishedItemsDaoMock);
 
-        when(publishedItemsDaoMock.getLastPublishedIds()).thenReturn(Collections.EMPTY_LIST);
-        sutWithSmallLimit.saveNewPublishedIds(Arrays.asList(1l, 2l, 3l));
+        when(publishedItemsDaoMock.getLastPublishedIds()).thenReturn(Arrays.asList(1l, 2l));
+        sutWithSmallLimit.saveNewPublishedId(3);
 
-        verify(publishedItemsDaoMock).saveLastPublishedIds(Arrays.asList(1l, 2l));
-    }
-
-    @Test
-    public void shouldSaveNewItemsWithAlreadyPublished() {
-        when(publishedItemsDaoMock.getLastPublishedIds()).thenReturn(Arrays.asList(1l ,2l));
-
-        sut.saveNewPublishedIds(Arrays.asList(3l ,4l));
-
-        verify(publishedItemsDaoMock).saveLastPublishedIds(Arrays.asList(3l, 4l, 1l, 2l));
-    }
-
-    @Test
-    public void shouldNotSaveIfIdsIsEmpty() {
-        sut.saveNewPublishedIds(Collections.EMPTY_LIST);
-        verifyZeroInteractions(publishedItemsDaoMock);
+        verify(publishedItemsDaoMock).saveLastPublishedIds(Arrays.asList(3l, 1l));
     }
 }

@@ -20,15 +20,11 @@ public class PublishedItemsServiceImpl implements PublishedItemsService {
     }
 
     @Override
-    public void saveNewPublishedIds(List<Long> newPublishedIds) {
-        if (newPublishedIds.isEmpty()) {
-            log.info("Nothing to save");
-            return;
-        }
-
+    public void saveNewPublishedId(long id) {
         List<Long> lastPublishedIds = publishedItemsDao.getLastPublishedIds();
 
-        List<Long> allPublishedIds = new ArrayList<>(newPublishedIds);
+        List<Long> allPublishedIds = new ArrayList<>();
+        allPublishedIds.add(id);
         allPublishedIds.addAll(lastPublishedIds);
 
         int saveLimit = limit < allPublishedIds.size() ? limit : allPublishedIds.size();

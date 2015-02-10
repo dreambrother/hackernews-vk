@@ -5,5 +5,5 @@ import java.util.List;
 public interface PublishedItemsService {
 
     List<Long> getLastPublishedIds();
-    void saveNewPublishedIds(List<Long> ids);
+    void saveNewPublishedId(long id);
 }

@@ -8,11 +8,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Arrays;
-
 import static com.github.dreambrother.hackernews.fixture.HackernewsItems.twoItems;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class PublicatorTest {
 
@@ -41,7 +38,21 @@ public class PublicatorTest {
         sut.run();
 
         verify(vkClientMock).publish(twoItems().get(0));
+        verify(publishedItemsServiceMock).saveNewPublishedId(twoItems().get(0).getId());
         verify(vkClientMock).publish(twoItems().get(1));
-        verify(publishedItemsServiceMock).saveNewPublishedIds(Arrays.asList(twoItems().get(0).getId(), twoItems().get(1).getId()));
+        verify(publishedItemsServiceMock).saveNewPublishedId(twoItems().get(1).getId());
+    }
+
+    @Test
+    public void shouldPublishNextNewsIfFirstCompletedWithError() {
+        when(hackernewsServiceMock.getMostPopularNonPublishedNews()).thenReturn(twoItems());
+        doThrow(new RuntimeException("OK")).when(vkClientMock).publish(twoItems().get(0));
+
+        sut.run();
+
+        verify(vkClientMock).publish(twoItems().get(0));
+        verify(vkClientMock).publish(twoItems().get(1));
+        verify(publishedItemsServiceMock).saveNewPublishedId(twoItems().get(1).getId());
+        verifyNoMoreInteractions(publishedItemsServiceMock);
     }
 }
