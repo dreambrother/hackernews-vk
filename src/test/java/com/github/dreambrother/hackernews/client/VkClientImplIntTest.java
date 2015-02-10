@@ -1,5 +1,6 @@
 package com.github.dreambrother.hackernews.client;
 
+import com.github.dreambrother.hackernews.dto.HackernewsItem;
 import com.github.dreambrother.hackernews.exceptions.VkException;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -32,5 +33,15 @@ public class VkClientImplIntTest {
         invalidClient.setCommunityId("invalid");
 
         invalidClient.publish(oneItem());
+    }
+
+    @Test
+    public void shouldPublishNewsWithDollarSign() {
+        HackernewsItem item = new HackernewsItem();
+        item.setId(1L);
+        item.setScore(100);
+        item.setTitle("Test $");
+        item.setUrl("http://blog.ycombinator.com/$500k-of-azure-credit-for-yc-startups");
+        sut.publish(item);
     }
 }
