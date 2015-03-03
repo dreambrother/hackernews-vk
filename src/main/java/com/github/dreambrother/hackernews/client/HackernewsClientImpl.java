@@ -47,8 +47,4 @@ public class HackernewsClientImpl implements HackernewsClient {
     public void setFetchLimit(int fetchLimit) {
         this.fetchLimit = fetchLimit;
     }
-
-    public int getFetchLimit() {
-        return fetchLimit;
-    }
 }
