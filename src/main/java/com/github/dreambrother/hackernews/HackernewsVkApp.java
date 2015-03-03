@@ -31,6 +31,7 @@ public class HackernewsVkApp {
 
         HackernewsClientImpl hackernewsClient = new HackernewsClientImpl();
         hackernewsClient.setHackernewsUrl(properties.getStringProperty("hackernews.url"));
+        hackernewsClient.setFetchLimit(properties.getIntProperty("hackernews.fetchLimit"));
 
         PublishedItemsDaoImpl publishedItemsDao = new PublishedItemsDaoImpl();
         publishedItemsDao.setDbFile(new File(properties.getStringProperty("db.file")));

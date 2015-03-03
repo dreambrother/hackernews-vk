@@ -6,16 +6,20 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class HackernewsClientImplIntTest {
 
+    private static final String HACKERNEWS_URL = "https://hacker-news.firebaseio.com/v0";
+
     private HackernewsClientImpl sut = new HackernewsClientImpl();
 
     @Before
     public void setUp() throws Exception {
-        sut.setHackernewsUrl("https://hacker-news.firebaseio.com/v0");
+        sut.setHackernewsUrl(HACKERNEWS_URL);
+        sut.setFetchLimit(100);
     }
 
     @Test
@@ -28,6 +32,18 @@ public class HackernewsClientImplIntTest {
     public void shouldFetchNewsItem() {
         HackernewsItem actual = sut.fetchNewsItem(8466437L);
         assertNotEmpty(actual);
+    }
+
+    @Test
+    public void shouldFetchNewsWithLimit() {
+        int limit = 10;
+        HackernewsClientImpl sutWithSmallLimit = new HackernewsClientImpl();
+        sutWithSmallLimit.setHackernewsUrl(HACKERNEWS_URL);
+        sutWithSmallLimit.setFetchLimit(limit);
+
+        List<Long> actual = sutWithSmallLimit.fetchNewsIds();
+
+        assertEquals(limit, actual.size());
     }
 
     private void assertNotEmpty(HackernewsItem item) {
