@@ -24,7 +24,7 @@ public class Publicator implements Runnable {
         log.info("Publish new items to VK");
         try {
             publishNews();
-        } catch (RuntimeException ex) {
+        } catch (Exception ex) {
             log.error("Cannot publish news", ex);
         }
     }
