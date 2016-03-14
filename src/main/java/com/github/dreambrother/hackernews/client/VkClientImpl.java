@@ -20,6 +20,8 @@ public class VkClientImpl implements VkClient {
     private static final Logger log = LoggerFactory.getLogger(VkClientImpl.class);
     private static final ObjectMapper mapper = new ObjectMapper();
 
+    private static final int DEFAULT_TIMEOUT_MILLIS = 15000;
+
     private static final String USER_AGENT =
             "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36";
 
@@ -31,6 +33,8 @@ public class VkClientImpl implements VkClient {
         log.info("Publish {}", news);
         try {
             String responseString = Request.Post("https://api.vk.com/method/wall.post")
+                    .connectTimeout(DEFAULT_TIMEOUT_MILLIS)
+                    .socketTimeout(DEFAULT_TIMEOUT_MILLIS)
                     .userAgent(USER_AGENT)
                     .bodyForm(paramsForNews(news), Charset.forName("UTF-8"))
                     .execute().returnContent().asString();

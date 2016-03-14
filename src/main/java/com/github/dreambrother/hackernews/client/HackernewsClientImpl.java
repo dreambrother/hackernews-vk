@@ -14,6 +14,8 @@ public class HackernewsClientImpl implements HackernewsClient {
 
     private static final Logger log = LoggerFactory.getLogger(HackernewsClientImpl.class);
 
+    private static final int DEFAULT_TIMEOUT_MILLIS = 15000;
+
     private String hackernewsUrl;
     private int fetchLimit;
 
@@ -21,7 +23,12 @@ public class HackernewsClientImpl implements HackernewsClient {
     public List<Long> fetchNewsIds() {
         log.info("Try to fetch news");
         try {
-            String response = Request.Get(hackernewsUrl + "/topstories.json").execute().returnContent().asString();
+            String response = Request.Get(hackernewsUrl + "/topstories.json")
+                    .connectTimeout(DEFAULT_TIMEOUT_MILLIS)
+                    .socketTimeout(DEFAULT_TIMEOUT_MILLIS)
+                    .execute()
+                    .returnContent()
+                    .asString();
             List<Long> ids = HackernewsJsonUtils.MAPPER.readValue(response, HackernewsJsonUtils.IDS_TYPE);
             return ids.subList(0, fetchLimit);
         } catch (IOException e) {
