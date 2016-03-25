@@ -40,7 +40,12 @@ public class HackernewsClientImpl implements HackernewsClient {
     public HackernewsItem fetchNewsItem(Long id) {
         log.info("Try to fetch news item={}", id);
         try {
-            String response = Request.Get(hackernewsUrl + "/item/" + id + ".json").execute().returnContent().asString();
+            String response = Request.Get(hackernewsUrl + "/item/" + id + ".json")
+                    .connectTimeout(DEFAULT_TIMEOUT_MILLIS)
+                    .socketTimeout(DEFAULT_TIMEOUT_MILLIS)
+                    .execute()
+                    .returnContent()
+                    .asString();
             return HackernewsJsonUtils.MAPPER.readValue(response, HackernewsItem.class);
         } catch (IOException e) {
             throw new RuntimeIOException(e);
