@@ -55,7 +55,7 @@ public class VkClientImpl implements VkClient {
                 new BasicNameValuePair("message", formatMessage(news)),
                 new BasicNameValuePair("attachments", news.getUrl()),
                 new BasicNameValuePair("access_token", token),
-                new BasicNameValuePair("v", "5.70")
+                new BasicNameValuePair("v", "5.131")
         );
     }
 
