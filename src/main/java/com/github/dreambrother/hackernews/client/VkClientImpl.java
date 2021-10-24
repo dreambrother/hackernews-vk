@@ -52,9 +52,10 @@ public class VkClientImpl implements VkClient {
         return Arrays.asList(
                 new BasicNameValuePair("owner_id", communityId),
                 new BasicNameValuePair("from_group", "1"),
-                new BasicNameValuePair("message", formatMessage(news)),
+                new BasicNameValuePair("message", news.getTitle()),
                 new BasicNameValuePair("attachments", news.getUrl()),
                 new BasicNameValuePair("access_token", token),
+                new BasicNameValuePair("copyright", "https://news.ycombinator.com/item?id=" + news.getId()),
                 new BasicNameValuePair("v", "5.131")
         );
     }
@@ -63,10 +64,6 @@ public class VkClientImpl implements VkClient {
         if (response.get("response") == null) {
             throw new VkException("VK response contains error");
         }
-    }
-
-    private String formatMessage(HackernewsItem news) {
-        return String.format("%s%nComments: %s", news.getTitle(), "https://news.ycombinator.com/item?id=" + news.getId());
     }
 
     public void setToken(String token) {
